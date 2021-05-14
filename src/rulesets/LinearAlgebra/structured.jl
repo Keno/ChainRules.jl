@@ -109,6 +109,8 @@ end
 function rrule(::typeof(adjoint), A::AbstractVector{<:Number})
     adjoint_pullback(ȳ::Composite) = (NO_FIELDS, vec(ȳ.parent))
     adjoint_pullback(ȳ::AbstractMatrix) = (NO_FIELDS, vec(adjoint(ȳ)))
+    adjoint_pullback(ȳ::AbstractThunk) = adjoint_pullback(unthunk(ȳ))
+    adjoint_pullback(ȳ::AbstractZero) = (NO_FIELDS, ȳ)
     return adjoint(A), adjoint_pullback
 end
 

@@ -26,12 +26,12 @@ let
             cos_pullback(Δy) = (NO_FIELDS, -sinx' * Δy)
             return (cosx, cos_pullback)
         end
-        
+
         function frule((_, Δx), ::typeof(cos), x::Number)
             sinx, cosx = sincos(x)
             return (cosx, -sinx * Δx)
         end
-        
+
         @scalar_rule tan(x) 1 + Ω ^ 2
 
 
@@ -208,7 +208,7 @@ let
             # Optimized version of `Δx .* y .+ x .* Δy`. Also, it is potentially more
             # accurate on machines with FMA instructions, since there are only two
             # rounding operations, one in `muladd/fma` and the other in `*`.
-            ∂xy = muladd.(Δx, y, x .* Δy)
+            ∂xy = muladd(Δx, y, x * Δy)
             return x * y, ∂xy
         end
 

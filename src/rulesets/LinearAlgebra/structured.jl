@@ -100,18 +100,24 @@ function rrule(::Type{<:Adjoint}, A::AbstractVector{<:Number})
     return Adjoint(A), Adjoint_pullback
 end
 
+struct adjoint_pullback_3; end
+(::adjoint_pullback_3)(ȳ::Composite) = (NO_FIELDS, ȳ.parent)
+(::adjoint_pullback_3)(ȳ::AbstractMatrix) = (NO_FIELDS, adjoint(ȳ))
+(::adjoint_pullback_3)(ȳ::AbstractThunk) = adjoint_pullback(unthunk(ȳ))
+(::adjoint_pullback_3)(ȳ::AbstractZero) = (NO_FIELDS, ȳ)
+
 function rrule(::typeof(adjoint), A::AbstractMatrix{<:Number})
-    adjoint_pullback(ȳ::Composite) = (NO_FIELDS, ȳ.parent)
-    adjoint_pullback(ȳ::AbstractVecOrMat) = (NO_FIELDS, adjoint(ȳ))
-    return adjoint(A), adjoint_pullback
+    return adjoint(A), adjoint_pullback_3()
 end
 
+struct adjoint_pullback_4; end
+(::adjoint_pullback_4)(ȳ::Composite) = (NO_FIELDS, vec(ȳ.parent))
+(::adjoint_pullback_4)(ȳ::AbstractMatrix) = (NO_FIELDS, vec(adjoint(ȳ)))
+(::adjoint_pullback_4)(ȳ::AbstractThunk) = adjoint_pullback(unthunk(ȳ))
+(::adjoint_pullback_4)(ȳ::AbstractZero) = (NO_FIELDS, ȳ)
+
 function rrule(::typeof(adjoint), A::AbstractVector{<:Number})
-    adjoint_pullback(ȳ::Composite) = (NO_FIELDS, vec(ȳ.parent))
-    adjoint_pullback(ȳ::AbstractMatrix) = (NO_FIELDS, vec(adjoint(ȳ)))
-    adjoint_pullback(ȳ::AbstractThunk) = adjoint_pullback(unthunk(ȳ))
-    adjoint_pullback(ȳ::AbstractZero) = (NO_FIELDS, ȳ)
-    return adjoint(A), adjoint_pullback
+    return adjoint(A), adjoint_pullback_4()
 end
 
 #####

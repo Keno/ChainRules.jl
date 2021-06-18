@@ -15,6 +15,7 @@
 
 
 @non_differentiable Bool(::Any)
+@non_differentiable zero(::Type)
 
 @non_differentiable accumulate(::Any, ::AbstractArray{Bool})
 @non_differentiable accumulate!(::Any, ::Any, ::AbstractArray{Bool})
@@ -312,7 +313,7 @@ VERSION >= v"1.4" && @non_differentiable only(::Char)
 @non_differentiable readuntil(::IO, ::AbstractString)
 @non_differentiable realpath(::AbstractString)
 if isdefined(Base, :redirect_stdio)
-    @non_differentiable (::Base.redirect_stdio)(
+    @non_differentiable (::typeof(Base.redirect_stdio))(
         ::Union{IOStream, Base.LibuvStream, Base.DevNull, Base.AbstractPipe},
     )
 else
@@ -429,3 +430,4 @@ VERSION >= v"1.1" && @non_differentiable Sys.isopenbsd(::Symbol)
 @non_differentiable Threads.nthreads()
 @non_differentiable Threads.threadid()
 @non_differentiable Threads.threadid(::Task)
+@non_differentiable Base.fieldindex(args...)

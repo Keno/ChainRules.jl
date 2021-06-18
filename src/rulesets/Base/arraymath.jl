@@ -19,6 +19,7 @@ end
 ##### `*`
 #####
 
+#=
 function rrule(
     ::typeof(*),
     A::AbstractVecOrMat{<:CommutativeMulNumber},
@@ -39,7 +40,9 @@ function rrule(
     end
     return A * B, times_pullback
 end
+=#
 
+#=
 function rrule(
     ::typeof(*),
     A::AbstractVector{<:CommutativeMulNumber},
@@ -61,6 +64,7 @@ function rrule(
     end
     return A * B, times_pullback
 end
+=#
 
 function rrule(
    ::typeof(*), A::CommutativeMulNumber, B::AbstractArray{<:CommutativeMulNumber}

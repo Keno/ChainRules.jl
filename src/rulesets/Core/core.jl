@@ -13,3 +13,4 @@
 @non_differentiable Core.typeassert(::Any, ::Any)
 
 @non_differentiable Core.UnionAll(::Any...)
+@non_differentiable Core._typevar(::Any...)

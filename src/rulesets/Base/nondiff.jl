@@ -15,6 +15,7 @@
 
 
 @non_differentiable Bool(::Any)
+@non_differentiable zero(::Type)
 
 @non_differentiable accumulate(::Any, ::AbstractArray{Bool})
 @non_differentiable accumulate!(::Any, ::Any, ::AbstractArray{Bool})
@@ -438,3 +439,4 @@ VERSION >= v"1.1" && @non_differentiable Sys.isopenbsd(::Symbol)
 @non_differentiable Threads.threadid(::Task)
 
 @non_differentiable similar(::Any...)
+@non_differentiable Base.fieldindex(args...)

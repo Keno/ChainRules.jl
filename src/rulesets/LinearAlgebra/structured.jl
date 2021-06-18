@@ -101,7 +101,7 @@ function rrule(::Type{<:Adjoint}, A::AbstractVector{<:Number})
 end
 
 struct adjoint_pullback_3; end
-(::adjoint_pullback_3)(ȳ::Composite) = (NoTangent(), ȳ.parent)
+(::adjoint_pullback_3)(ȳ::Tangent) = (NoTangent(), ȳ.parent)
 (::adjoint_pullback_3)(ȳ::AbstractMatrix) = (NoTangent(), adjoint(ȳ))
 (adjoint_pullback::adjoint_pullback_3)(ȳ::AbstractThunk) = adjoint_pullback(unthunk(ȳ))
 (::adjoint_pullback_3)(ȳ::AbstractZero) = (NoTangent(), ȳ)
